@@ -14,8 +14,6 @@ import javax.swing.SwingUtilities;
 
 public class FlashcardApp {
     private static int currentIndex = 0;
-    private static boolean showingAnswer = false;
-
     public static void main(String[] args) {
         SwingUtilities.invokeLater(FlashcardApp::createAndShowGUI);
     }
@@ -49,7 +47,6 @@ public class FlashcardApp {
                 // 新しいカード追加後に最初のカードを表示
                 currentIndex = 0;  // 最初のカードに戻す
                 displayLabel.setText(cards.get(currentIndex).word);
-                showingAnswer = false;  // 新しいカードを表示したので答えは表示されていない
             } else {
                 JOptionPane.showMessageDialog(frame, "単語と意味の両方を入力してください。");
             }
@@ -58,7 +55,6 @@ public class FlashcardApp {
         showAnswerButton.addActionListener(e -> {
             if (!cards.isEmpty()) {
                 displayLabel.setText(cards.get(currentIndex).meaning);
-                showingAnswer = true;
             }
         });
 
@@ -66,7 +62,6 @@ public class FlashcardApp {
             if (!cards.isEmpty()) {
                 currentIndex = (currentIndex + 1) % cards.size();
                 displayLabel.setText(cards.get(currentIndex).word);
-                showingAnswer = false;
             }
         });
 
