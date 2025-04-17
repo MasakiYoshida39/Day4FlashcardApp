@@ -25,10 +25,8 @@ public class FlashcardApp {
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         frame.setSize(400, 300);
 
-        // 単語カードリスト
         ArrayList<Flashcard> cards = new ArrayList<>();
 
-        // UIパーツ
         JTextField wordField = new JTextField();
         JTextField meaningField = new JTextField();
         JButton addButton = new JButton("カードを追加");
@@ -39,7 +37,6 @@ public class FlashcardApp {
         JButton showAnswerButton = new JButton("答えを見る");
         JButton nextButton = new JButton("次へ");
 
-        // カード追加処理
         addButton.addActionListener(e -> {
             String word = wordField.getText();
             String meaning = meaningField.getText();
@@ -48,18 +45,23 @@ public class FlashcardApp {
                 wordField.setText("");
                 meaningField.setText("");
                 JOptionPane.showMessageDialog(frame, "カードを追加しました！");
+
+                // 新しいカード追加後に最初のカードを表示
+                currentIndex = 0;  // 最初のカードに戻す
+                displayLabel.setText(cards.get(currentIndex).word);
+                showingAnswer = false;  // 新しいカードを表示したので答えは表示されていない
+            } else {
+                JOptionPane.showMessageDialog(frame, "単語と意味の両方を入力してください。");
             }
         });
 
-        // 答え表示
         showAnswerButton.addActionListener(e -> {
             if (!cards.isEmpty()) {
-                showingAnswer = true;
                 displayLabel.setText(cards.get(currentIndex).meaning);
+                showingAnswer = true;
             }
         });
 
-        // 次へ
         nextButton.addActionListener(e -> {
             if (!cards.isEmpty()) {
                 currentIndex = (currentIndex + 1) % cards.size();
@@ -68,12 +70,6 @@ public class FlashcardApp {
             }
         });
 
-        // 初期カード表示（最初のカードがあれば）
-        if (!cards.isEmpty()) {
-            displayLabel.setText(cards.get(0).word);
-        }
-
-        // レイアウト
         JPanel inputPanel = new JPanel(new GridLayout(2, 2));
         inputPanel.add(new JLabel("単語："));
         inputPanel.add(wordField);
@@ -93,7 +89,6 @@ public class FlashcardApp {
         frame.setVisible(true);
     }
 
-    // カードのデータ構造
     static class Flashcard {
         String word;
         String meaning;
